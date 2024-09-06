@@ -1,6 +1,8 @@
 [package]
 name = "nitro-compiler"
-version = "0.1.0"
+version = "1.0.0"
+license = "MIT"
+repository = "https://github.com/eehcx/nitro-compiler"
 edition = "2021"
 
 [dependencies]

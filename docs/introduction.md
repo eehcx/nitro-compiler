@@ -1,5 +1,9 @@
 # Introducción
 
+### Índice
+- Para la instalación y uso [consulta](./installation.md).
+- Para saber acerca del funcionamiento y etapas [consulta](./phase.md).
+
 ### Fases principales del compilador
 1. Análisis Léxico (Lexer)
 2. Análisis Sintáctico (Parser)
