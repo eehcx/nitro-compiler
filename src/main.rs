@@ -1,37 +1,39 @@
 mod lexer;
+mod parser;
+mod ast;
+mod semantic;
+mod ir;
+mod codegen;
 
-//use lexer::tokenize;
-//use lexer::tokens::Token;
-//use crate::lexer::parser::parse_number;
-//use logos::Logos;
-use crate::lexer::tokenize;
-//use crate::parser::parse_expression;
-
-/*
-fn main() {
-    let text = "42 3.14";
-    let mut lexer = Token::lexer(text);
-
-    while let Some(expr) = parse_number(&mut lexer) {
-        println!("{:?}", expr);
-    }
-    match parse_expression(&tokens) {
-        Ok(expr) => println!("{:?}", expr),
-        Err(err) => eprintln!("Error: {:?}", err),
-    }
-}*/
+use lexer::Lexer;
+use parser::Parser;
+use semantic::SemanticAnalyzer;
+use ir::IRGenerator;
+use codegen::CodeGenerator;
 
 fn main() {
-    //let source = "let x = 5;";
-    let source = "let x = 10 + 2;";
-    // let source = "3 + 5 * (10 - 4)";
-    let tokens = tokenize(source);
-    //let mut tokens = source.into_tokens();
+    //let input = "3 + 5 * (10 - 4)";
+    let input ="30 / 10";
 
-    for token in tokens {
-        println!("{:?}", token);
-    }
+    // Etapa 1: Lexer (Análisis Léxico)
+    let mut lexer = Lexer::new(input);
+    let tokens = lexer.tokenize();
+    println!("Tokens: {:?}", tokens);
 
-    //let ast = parse_expr(&mut tokens).unwrap();
-    //println!("{:?}", ast);
+    // Etapa 2: Parser (Análisis Sintáctico)
+    let mut parser = Parser::new(tokens);
+    let ast = parser.parse();
+    println!("AST: {:?}", ast);
+
+    // Etapa 3: Análisis Semántico
+    let mut semantic_analyzer = SemanticAnalyzer::new();
+    semantic_analyzer.analyze(&ast);
+    
+    // Etapa 4: Generación de Código Intermedio (IR)
+    let ir = IRGenerator::generate(&ast);
+    println!("IR: {:?}", ir);
+
+    // Etapa 5: Generación de Código
+    let result = CodeGenerator::generate(ir);
+    println!("Resultado: {}", result);
 }
